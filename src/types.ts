@@ -233,7 +233,7 @@ export interface Voucher {
   roundOffAdjustment: number;
   finalGrandTotal: number;
   amountInWords?: string;
-  proformaValidityDays?: 3 | 5 | 7 | 10;
+  proformaValidityDays?: number; // User's discretion, 1-10 days
   expiresOn?: string; // YYYY-MM-DD for Proformas
   // Gate Pass specific fields (No VAT/pricing on this type)
   direction?: 'inward' | 'outward';
