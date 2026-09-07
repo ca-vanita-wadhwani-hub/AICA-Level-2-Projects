@@ -201,7 +201,7 @@ export const GettingStartedModal: React.FC<GettingStartedModalProps> = ({ isOpen
                   <li><strong>Multi-Currency Tax Invoices</strong>: Create and finalize Sales Invoices in TZS, USD, INR, CNY, ZAR, GBP, and EUR with automatic legal spelled-out amounts in words and recorded exchange rates.</li>
                   <li><strong>Payment Trend Analytics</strong>: Analyze Days-to-Pay metrics, flag accounts exceeding credit terms, and record customer payments directly against finalized vouchers.</li>
                   <li><strong>Client KYC & Credit Days</strong>: Audit customer credit applications, view uploaded TIN & bank certificates, and manage credit limit ceilings in Clientele.</li>
-                  <li><strong>Proforma Validity Expiration</strong>: Manage 3 to 10-day validity periods on Proforma Invoices with automated expiration tracking.</li>
+                  <li><strong>Proforma Validity Expiration</strong>: Set any validity period up to 10 days on Proforma Invoices, at the user's discretion, with automated expiration tracking.</li>
                 </ul>
               </div>
             </div>

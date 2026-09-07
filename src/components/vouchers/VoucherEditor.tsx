@@ -81,8 +81,8 @@ export const VoucherEditor: React.FC<VoucherEditorProps> = ({
     initialVoucher?.paymentTerms || 'Net 30 Days via CRDB Bank'
   );
 
-  // Proforma Validity (Max 10 Days)
-  const [proformaValidityDays, setProformaValidityDays] = useState<3 | 5 | 7 | 10>(
+  // Proforma Validity - user's discretion, up to 10 days
+  const [proformaValidityDays, setProformaValidityDays] = useState<number>(
     initialVoucher?.proformaValidityDays || 7
   );
 
@@ -571,7 +571,7 @@ export const VoucherEditor: React.FC<VoucherEditorProps> = ({
             <div className="flex items-center space-x-2">
               <Clock className="w-4 h-4 text-blue-700 shrink-0" />
               <div>
-                <p className="font-bold text-blue-900">Proforma Validity Duration (Max 10 Days)</p>
+                <p className="font-bold text-blue-900">Proforma Validity Duration (Your Discretion, Up to 10 Days)</p>
                 <p className="text-blue-700 text-[11px]">
                   Controls document lifespan. Valid until <span className="font-bold underline">{proformaExpiresOn}</span> ({proformaValidityDays} days from issue).
                 </p>
@@ -580,16 +580,20 @@ export const VoucherEditor: React.FC<VoucherEditorProps> = ({
 
             <div className="flex items-center space-x-2">
               <label className="font-semibold text-blue-900">Validity Period:</label>
-              <select
+              <input
+                type="number"
+                min={1}
+                max={10}
+                step={1}
                 value={proformaValidityDays}
-                onChange={(e) => setProformaValidityDays(Number(e.target.value) as any)}
-                className="px-3 py-1.5 bg-white border border-blue-300 rounded-lg font-bold text-blue-900 focus:ring-2 focus:ring-blue-500 focus:outline-hidden"
-              >
-                <option value={3}>3 Days Validity</option>
-                <option value={5}>5 Days Validity</option>
-                <option value={7}>7 Days Validity (Standard)</option>
-                <option value={10}>10 Days Validity (Maximum)</option>
-              </select>
+                onChange={(e) => {
+                  const raw = Number(e.target.value);
+                  const clamped = Math.min(10, Math.max(1, isNaN(raw) ? 1 : raw));
+                  setProformaValidityDays(clamped);
+                }}
+                className="w-20 px-3 py-1.5 bg-white border border-blue-300 rounded-lg font-bold text-blue-900 focus:ring-2 focus:ring-blue-500 focus:outline-hidden"
+              />
+              <span className="text-blue-700">Days (1-10, your discretion)</span>
             </div>
           </div>
         )}
