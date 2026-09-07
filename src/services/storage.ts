@@ -39,6 +39,47 @@ import { convertNumberToWords } from '../utils/numberToWords';
 
 const STORAGE_KEY = 'kilitrade_multitenant_saas_v3';
 
+// Inert placeholders used only before any company/user has been registered.
+// They're never added to state or persisted — just returned so components
+// reading companyProfile/currentUser pre-authentication don't crash on
+// undefined. The AuthScreen (shown whenever no session is active) ignores them.
+const BLANK_COMPANY_PROFILE: CompanyProfile = {
+  id: '',
+  name: '',
+  companyCode: '',
+  tin: '',
+  vrn: '',
+  address: '',
+  phone: '',
+  email: '',
+  website: '',
+  bankDetails: {
+    bankName: '',
+    accountName: '',
+    accountNumber: '',
+    swiftCode: '',
+    branchName: '',
+  },
+  theme: {
+    primaryColor: '#0F2C59',
+    secondaryColor: '#1E40AF',
+    accentColor: '#D97706',
+    fontFamily: 'Inter, system-ui, sans-serif',
+  },
+  createdAt: '',
+  updatedAt: '',
+};
+
+const BLANK_USER: User = {
+  id: '',
+  companyId: '',
+  name: '',
+  email: '',
+  role: 'admin',
+  status: 'approved',
+  createdAt: '',
+};
+
 export function formatTIN(val: string): string {
   const digits = val.replace(/\D/g, '').slice(0, 9);
   if (digits.length <= 3) return digits;
@@ -140,7 +181,7 @@ export class StorageService {
   public getCompanyProfile(companyId?: string): CompanyProfile {
     const targetId = companyId || this.state.currentCompanyId;
     const found = this.state.companies.find((c) => c.id === targetId);
-    return found || this.state.companies[0] || demoCompanies[0];
+    return found || this.state.companies[0] || BLANK_COMPANY_PROFILE;
   }
 
   public getCompanyByCode(code: string): CompanyProfile | undefined {
@@ -334,7 +375,7 @@ export class StorageService {
     const companyUser = this.state.users.find(
       (u) => u.companyId === this.state.currentCompanyId && u.status === 'approved'
     );
-    return companyUser || this.state.users[0] || demoUsers[0];
+    return companyUser || this.state.users[0] || BLANK_USER;
   }
 
   public setCurrentUser(user: User): void {
